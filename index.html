@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>animation</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="svg-container">
+        <video class="video-background" autoplay loop muted>
+            <source src="/video/video.mp4" type="video/mp4" />
+        </video>
+        <svg viewBox="0 0 400 210" id="main-svg">
+            <defs>
+                <mask id="mask">
+                    <rect width="400" height="210" x="0" fill="#fff" />
+                    <rect width="120" height="20" x="155" y="20" fill="red" />
+                    <rect width="60" height="20" x="115" y="60" fill="red" />
+                    <rect width="88" height="20" x="155" y="100" fill="red" />
+                    <rect width="220" height="20" x="170" y="140" fill="red" />
+                </mask>
+            </defs>
+            <rect width="400" height="210" fill="#000" mask="url(#mask)" />
+            <text class="responsive-text" style="font-size: 32px" font-family="Oswald" font-weight="bold" fill="#fff"
+                x="10px" y="40px">
+                We're here
+            </text>
+            <text class="responsive-text" style="font-size: 32px" font-family="Oswald" font-weight="bold" fill="#fff"
+                x="285px" y="40px">
+                to make
+            </text>
+            <text class="responsive-text" style="font-size: 32px" font-family="Oswald" font-weight="bold" fill="#fff"
+                x="10px" y="80px">
+                healthy
+            </text>
+            <text class="responsive-text" style="font-size: 32px" font-family="Oswald" font-weight="bold" fill="#fff"
+                x="184px" y="80px">
+                living effortless
+            </text>
+            <text class="responsive-text" style="font-size: 32px" font-family="Oswald" font-weight="bold" fill="#fff"
+                x="10px" y="120px">
+                so you can
+            </text>
+            <text class="responsive-text" style="font-size: 32px" font-family="Oswald" font-weight="bold" fill="#fff"
+                x="250px" y="120px">
+                live longer
+            </text>
+            <text class="responsive-text" style="font-size: 32px" font-family="Oswald" font-weight="bold" fill="#fff"
+                x="10px" y="160px">
+                and happier
+            </text>
+        </svg>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const svg = document.getElementById('main-svg');
+            const textElements = document.querySelectorAll('.responsive-text');
+            const baseViewportWidth = 800;
+            const baseFontSize = 32;
+
+            function updateTextSizes() {
+                const container = document.querySelector('.svg-container');
+                const currentWidth = container.clientWidth;
+                const scaleFactor = currentWidth / baseViewportWidth;
+
+                const clampedScale = Math.min(Math.max(scaleFactor, 0.5), 1.5);
+                const newFontSize = baseFontSize * clampedScale;
+
+                textElements.forEach(text => {
+                    text.setAttribute('font-size', newFontSize);
+                });
+
+                const maskRects = document.querySelectorAll('mask rect[fill="red"]');
+                maskRects.forEach(rect => {
+                    const originalHeight = 20;
+                    const newHeight = originalHeight * clampedScale;
+                    rect.setAttribute('height', newHeight);
+                });
+            }
+
+            updateTextSizes();
+
+            window.addEventListener('resize', function () {
+                requestAnimationFrame(updateTextSizes);
+            });
+        });
+    </script>
+</body>
+
+</html>
